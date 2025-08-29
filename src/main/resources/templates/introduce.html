@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Policy</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Form Container */
+        .form-container {
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+        }
+
+        /* Form Layout */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px; /* Increased gap for better spacing */
+            width: 100%;
+        }
+
+        /* Header */
+        h2 {
+            color: #1a202c;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        /* Labels */
+        label {
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: -10px; /* Bring label closer to its input */
+        }
+
+        /* Input Fields and Select */
+        input[type=text],
+        input[type=number],
+        input[type=date],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: #f8f9fa;
+            font-size: 16px;
+            color: #333;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type=text]:focus,
+        input[type=number]:focus,
+        input[type=date]:focus,
+        select:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+        }
+
+        /* Button Group Container */
+        .button-group {
+            width: 100%;
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Base Button Styles */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+            box-sizing: border-box;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Primary Button (Submit) */
+        .btn.primary {
+            background-color: #007bff;
+            color: white;
+            border: 1px solid #007bff;
+        }
+
+        .btn.primary:hover {
+            background-color: #0056b3;
+        }
+
+        /* Secondary Button (Link) */
+        .btn.secondary {
+            background-color: #ffffff;
+            color: #6c757d;
+            border: 1px solid #6c757d;
+        }
+
+        .btn.secondary:hover {
+            background-color: #6c757d;
+            color: #ffffff;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div class="form-container">
+        <h2>New Insurance Form</h2>
+    <form th:action="@{'/open'}" th:method="post" th:object="${insurance}">
+        <label>Enter Policy Number</label>
+        <input type="number" name="policy_number" placeholder="Policy Number">
+        <label>Enter Policy Name</label>
+        <input type="text" name="policyholder_name" placeholder="Policy Name">
+        <label>Select Your Insurance Policy</label>
+        <select name="policy_type" >
+            <option>Health Insurance</option>
+            <option>Vehicle Insurance</option>
+            <option>Mutual Funds</option>
+            <option>Property Insurance</option>
+            <option>Home Insurance</option>
+            <option>Life Insurance</option>
+        </select>
+        <label>Enter Premium Amount</label>
+        <input type="number" name="premium_amount" placeholder="Premium Amount">
+        <label>Enter Start Date</label>
+        <input type="date" name="start_date" placeholder="Start Date">
+        <label>Enter End Date</label>
+        <input type="date" name="end_date" placeholder="End Date">
+        <label>Current Status</label>
+        <input type="text" name="status" placeholder="Status">
+        <div class="button-group">
+            <input type="submit" value="Create Policy" class="btn primary">
+            <a href="/view" class="btn secondary">View Policies</a>
+        </div>
+    </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+JavaEE - SpringBoot, Hibernate, JDBC, API and Servlets,
+
+📅 Daily Learning Highlights Day 1 – Core Java Basics
+
+✅ Arrays (1D & 2D)
+
+✅ main() method and its role
+
+✅ Static vs Non-Static concepts
+
+Day 2 – Object-Oriented Programming
+
+💡 OOP Pillars: Class, Object, Inheritance, Polymorphism, Abstraction, Encapsulation
+
+⚡ Constructors vs Methods + Overloading
+
+🔑 Getters & Setters for data security
+
+🌀 Inner Classes, Overloading vs Overriding, Interfaces
+
+📦 Wrapper Classes & String handling (String, StringBuffer, StringBuilder)
+
+💳 Hands-on: Fund Transfer Simulation with Account, DebitCard, and GPay classes
+
+Day 3 – Exception Handling & Multithreading
+
+🔹 Checked vs Unchecked Exceptions
+
+🔹 Try–Catch–Throw–Throws
+
+🚨 User-Defined Exceptions
+
+🔹 Thread Lifecycle & Multi-threading
+
+🔹 Synchronization, join(), sleep(), and wait()
+
+Day 4 – Java Project Setup
+
+✅ Created Apache Maven project
+
+✅ Configured IntelliJ IDEA
+
+✅ Initialized Tomcat Server for frontend–backend connection
+
+Day 5 – JSP & Servlets
+
+✅ Writing JSP files for dynamic web pages
+
+✅ Servlet Lifecycle (init(), service(), destroy())
+
+✅ Data sharing between JSPs via request & session
+
+✅ Using Listeners for application events
+
+Day 6 & 7 – CRUD Operations & Hibernate Intro
+
+✨ CRUD operations with JSP + Java backend
+
+✨ JSP-to-JSP redirection (e.g., banking service flow)
+
+✨ Hibernate with persistence.xml
+
+✨ Maven repositories & project flow
+
+✨ CRUD with Hibernate + JSP syntax
+
+Day 8 – Hibernate & Spring Boot Foundations
+
+✅ Hibernate Mappings (One-to-One, One-to-Many, Many-to-One, Many-to-Many)
+
+✅ Cascade Types & impact on DB operations
+
+✅ Logging levels: INFO, WARNING, DEBUG, ERROR
+
+✅ Criteria Builder for flexible queries
+
+✅ Hibernate vs JDBC comparison
+
+✅ Why industries prefer Spring Boot for scalable enterprise apps
+
+Day 9 – Team Project: CRUD Web Application
+
+🚀 Built a CRUD Web Application using Spring Boot and Thymeleaf
+
+👥 Collaborated with my team, practicing team coordination & project management
+
+✅ Implemented Create, Read, Update, Delete operations with a structured backend
+
+✅ Connected Thymeleaf templates for dynamic rendering of data
+
+💡 Learned the importance of teamwork in real-world software development

@@ -1,4 +1,4 @@
-@url = http://localhost:8080/rest
+@url = http://localhost:8082/rest
 GET {{url}}/view
 
 ###
@@ -26,4 +26,5 @@ Content-Type: application/json
     "maturityAmount": 260000.0,
     "duration": 10,
     "premium": 600
+
 }

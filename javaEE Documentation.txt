@@ -94,5 +94,8 @@ Day10 - Team Project: Filter & User Defined Methods
 
 ✅ Request using Form - RequestParam
 
-✅ 
+✅ For Filters & User Defined Methods - Individual Edit Page / ForEach Filter Operation
+
+✅ Spring Security - Authentication & Authorization 
+
 

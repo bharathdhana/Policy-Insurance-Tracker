@@ -98,4 +98,7 @@ Day10 - Team Project: Filter & User Defined Methods
 
 ✅ Spring Security - Authentication & Authorization 
 
+✅ Spring Boot Validator - For Auth Config
+
+
 

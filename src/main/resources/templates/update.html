@@ -141,32 +141,44 @@
 <body>
 <div class="form-container">
     <h2>Update Insurance Form</h2>
-    <form th:action="@{'/edit/' + ${OldValue.policyId}}" th:method="post" th:object="${OldValue}">
+    <form th:action="@{'/api/edit/' + ${OldValue.policyId}}"
+          th:method="post"
+          th:object="${OldValue}">
+
         <label>Enter Policy Number</label>
-        <input type="number" th:field="*{policy_number}" placeholder="Policy Number" >
+        <input type="number" th:field="*{policyNumber}" placeholder="Policy Number">
+
         <label>Enter Policy Name</label>
-        <input type="text" th:field="*{policyholder_name}" placeholder="Policy Name" >
+        <input type="text" th:field="*{policyHolderName}" placeholder="Policy Name">
+
         <label>Select Your Insurance Policy</label>
-        <select th:field="*{policy_type}" id="policy_type">
-            <option value="" disabled>-- Select a Policy Type --</option>
+        <select th:field="*{policyType}">
             <option value="Health Insurance">Health Insurance</option>
             <option value="Life Insurance">Life Insurance</option>
-            <option value="Auto Insurance">Auto Insurance</option>
+            <option value="Vehicle Insurance">Vehicle Insurance</option>
+            <option value="Property Insurance">Property Insurance</option>
             <option value="Home Insurance">Home Insurance</option>
-            <option value="Travel Insurance">Travel Insurance</option>
+            <option value="Mutual Funds">Mutual Funds</option>
         </select>
+
         <label>Enter Premium Amount</label>
-        <input type="number" th:field="*{premium_amount}" placeholder="Premium Amount">
+        <input type="number" th:field="*{premiumAmount}" placeholder="Premium Amount">
+
         <label>Enter Start Date</label>
-        <input type="date" th:field="*{start_date}" placeholder="Start Date">
+        <input type="date" th:field="*{startDate}">
+
         <label>Enter End Date</label>
-        <input type="date" th:field="*{end_date}" placeholder="End Date">
+        <input type="date" th:field="*{endDate}">
+
         <label>Current Status</label>
         <input type="text" th:field="*{status}" placeholder="Status">
+
         <div class="button-group">
             <input type="submit" value="Update Policy" class="btn primary">
+            <a href="/api/view" class="btn secondary">Back to Policies</a>
         </div>
     </form>
+
 </div>
 </body>
 </html>

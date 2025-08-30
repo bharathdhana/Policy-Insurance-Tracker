@@ -4,6 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -12,28 +15,36 @@ import java.time.LocalDate;
 public class Insurance {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int policyId;
-    private long policy_number;
-    private String policyholder_name;
-    private String policy_type;
-    private double premium_amount;
+    private long policyNumber;
+    @NotNull(message = "Policy Number is Mandatory")
+    @Pattern(regexp = "^[A-Za-z ]{3,}$",message = "Invalid PolicyHolderName")
+    private String policyHolderName;
+    @Pattern(regexp = "^[A-Za-z ]{3,}$",message = "Invalid PolicyType")
+    private String policyType;
+    @NotNull(message = "Premium Amount is Mandatory")
+    @Min(value = 1, message = "Invalid Premium Amount")
+    private double premiumAmount;
+    @Min(value = 1, message = "Invalid date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate start_date;
+    private LocalDate startDate;
+    @Min(value = 1, message = "Invalid date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate end_date;
+    private LocalDate endDate;
+    @NotNull(message = "Invalid Status")
     private String status;
 
     //Constructors
     public Insurance() {
     }
 
-    public Insurance(int policyId, long policy_number, String policyholder_name, String policy_type, double premium_amount, LocalDate start_date, LocalDate end_date, String status) {
+    public Insurance(int policyId, long policyNumber, String policyHolderName, String policyType, double premiumAmount, LocalDate startDate, LocalDate endDate, String status) {
         this.policyId = policyId;
-        this.policy_number = policy_number;
-        this.policyholder_name = policyholder_name;
-        this.policy_type = policy_type;
-        this.premium_amount = premium_amount;
-        this.start_date = start_date;
-        this.end_date = end_date;
+        this.policyNumber = policyNumber;
+        this.policyHolderName = policyHolderName;
+        this.policyType = policyType;
+        this.premiumAmount = premiumAmount;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.status = status;
     }
 
@@ -46,52 +57,52 @@ public class Insurance {
         this.policyId = policyId;
     }
 
-    public long getPolicy_number() {
-        return policy_number;
+    public long getPolicyNumber() {
+        return policyNumber;
     }
 
-    public void setPolicy_number(long policy_number) {
-        this.policy_number = policy_number;
+    public void setPolicyNumber(long policyNumber) {
+        this.policyNumber = policyNumber;
     }
 
-    public String getPolicyholder_name() {
-        return policyholder_name;
+    public String getPolicyHolderName() {
+        return policyHolderName;
     }
 
-    public void setPolicyholder_name(String policyholder_name) {
-        this.policyholder_name = policyholder_name;
+    public void setPolicyHolderName(String policyHolderName) {
+        this.policyHolderName = policyHolderName;
     }
 
-    public String getPolicy_type() {
-        return policy_type;
+    public String getPolicyType() {
+        return policyType;
     }
 
-    public void setPolicy_type(String policy_type) {
-        this.policy_type = policy_type;
+    public void setPolicyType(String policyType) {
+        this.policyType = policyType;
     }
 
-    public double getPremium_amount() {
-        return premium_amount;
+    public double getPremiumAmount() {
+        return premiumAmount;
     }
 
-    public void setPremium_amount(double premium_amount) {
-        this.premium_amount = premium_amount;
+    public void setPremiumAmount(double premiumAmount) {
+        this.premiumAmount = premiumAmount;
     }
 
-    public LocalDate getStart_date() {
-        return start_date;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public void setStart_date(LocalDate start_date) {
-        this.start_date = start_date;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
 
-    public LocalDate getEnd_date() {
-        return end_date;
+    public LocalDate getEndDate() {
+        return endDate;
     }
 
-    public void setEnd_date(LocalDate end_date) {
-        this.end_date = end_date;
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 
     public String getStatus() {

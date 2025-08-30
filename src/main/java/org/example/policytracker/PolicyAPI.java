@@ -10,74 +10,95 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-//@RequestMapping("/api")
+@RequestMapping("/api")
 public class PolicyAPI {
+
     @Autowired
     private PolicyService service;
 
-    //To view the Home page
     @GetMapping("/new")
     public String newPolicy(Model model){
-        Insurance ins = new Insurance();
-        model.addAttribute("insurance",ins);
+        model.addAttribute("insurance", new Insurance());
         return "introduce";
     }
 
-    //To Get Data from the user
     @PostMapping("/open")
-    public String openPolicy(Insurance insurance, Model model){
-        System.out.println("insurance:"+insurance);
-        //saving the attributes
-        Insurance receive = service.ImplementSave(insurance);
-        return "redirect:/new";
+    public String openPolicy(@ModelAttribute("insurance") Insurance insurance, RedirectAttributes redirectAttributes){
+        service.ImplementSave(insurance);
+        redirectAttributes.addFlashAttribute("message", "Policy created successfully!");
+        return "redirect:/api/view";
     }
 
-    // To view the stored data from the database
     @GetMapping("/view")
     public String viewPolicy(Model model){
         List<Insurance> obj = service.ReadEverything();
-        model.addAttribute("readpolicy",obj);
+        model.addAttribute("readpolicy", obj);
         return "view";
     }
-    // To edit the Stored data via PolicyID
+
     @GetMapping("/edit/{key}")
-    public String editPolicy(Model model, @PathVariable int key){
+    public String editPolicy(@PathVariable int key, Model model){
         Optional<Insurance> receive = service.EditElementById(key);
         if(receive.isPresent()){
-            model.addAttribute("OldValue",receive.get());
+            model.addAttribute("OldValue", receive.get());
             return "update";
         }
-        return "redirect:/view";
+        return "redirect:/api/view";
     }
 
-    //To Update the Data using Updateform Submission
     @PostMapping("/edit/{key}")
-    //Data binding and send messages
-    public String PolicyUpdate(@PathVariable int key, @ModelAttribute("OldValue") Insurance insurance, RedirectAttributes redirectAttributes){
+    public String PolicyUpdate(@PathVariable int key,
+                               @ModelAttribute("OldValue") Insurance insurance,
+                               RedirectAttributes redirectAttributes){
         try{
-            //fetch the PolicyId to overwrite existing data
             insurance.setPolicyId(key);
-            //try to resave the updated attributes
             service.ImplementSave(insurance);
-            //message to display
             redirectAttributes.addFlashAttribute("message","Policy updated successfully");
-            return "redirect:/view";
+            return "redirect:/api/view";
         } catch(Exception e){
-            //Exception Handling
-            redirectAttributes.addFlashAttribute("message",e.getMessage());
-            return "redirect:/edit" + key;
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/api/edit/" + key;
         }
     }
+
     @GetMapping("/delete/{key}")
-    public String DeletePolicy(@PathVariable int key,RedirectAttributes redirectAttributes){
-            try{
-                //delete the data using PolicyId as key
-                service.ImplementDelete(key);
-                redirectAttributes.addFlashAttribute("message","Policy deleted successfully");
-            } catch (Exception e){
-                //Exception Handling
-                redirectAttributes.addFlashAttribute("message",e.getMessage());
-            }
-            return "redirect:/view";
+    public String DeletePolicy(@PathVariable int key, RedirectAttributes redirectAttributes){
+        try{
+            service.ImplementDelete(key);
+            redirectAttributes.addFlashAttribute("message","Policy deleted successfully");
+        } catch (Exception e){
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+        }
+        return "redirect:/api/view";
     }
+
+    @GetMapping("/filter-page")
+    public String filterPage() {
+        return "filter"; // filter.html
+    }
+
+    @GetMapping("/filter/types")
+    public String filterByType(@RequestParam("category") String policyType, Model model) {
+        List<Insurance> filteredPolicies;
+        if (policyType == null || policyType.isEmpty()) {
+            filteredPolicies = service.ReadEverything(); // show all if empty
+        } else {
+            filteredPolicies = service.filterPolicyType(policyType);
+        }
+        model.addAttribute("readpolicy", filteredPolicies);
+        return "view";
+    }
+
+    @GetMapping("/filter/amount")
+    public String filterByAmount(@RequestParam("start") Double start, @RequestParam("end") Double end, Model model) {
+        List<Insurance> filteredPolicies;
+        if (start == null || end == null || start > end) {
+            filteredPolicies = service.ReadEverything(); // show all if invalid
+        } else {
+            filteredPolicies = service.filterPremiumAmount(start, end);
+        }
+        model.addAttribute("readpolicy", filteredPolicies);
+        return "view";
+    }
+
 }

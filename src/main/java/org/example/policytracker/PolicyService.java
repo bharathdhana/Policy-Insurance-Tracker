@@ -28,16 +28,16 @@ public class PolicyService {
     }
 
     //Delete Policy
-    public boolean ImplementDelete(int id) {
-        Optional<Insurance> insurance = remote.findById(id);
-        // if policy found
-        if (insurance.isPresent()) {
-            remote.deleteById(id);
-            return true;
+    public void ImplementDelete(int id) {
+           remote.deleteById(id);
         }
-        // if policy not found
-        else {
-            return false;
-        }
+
+    //filter Policies
+    public List<Insurance> filterPolicyType(String policy_type) {
+        return remote.findAllByPolicyType(policy_type);
+    }
+
+    public List<Insurance> filterPremiumAmount(double start,double end) {
+        return remote.findAllByPremiumAmountGreaterThanOrPremiumAmount(start,end);
     }
 }

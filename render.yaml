@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: policytracker
+    env: docker
+    plan: free
+    region: frankfurt
+    healthCheckPath: /api/view
+    # If the app exposes a specific port (like 8080), Render expects this ENV
+    envVars:
+      - key: PORT
+        value: 8080

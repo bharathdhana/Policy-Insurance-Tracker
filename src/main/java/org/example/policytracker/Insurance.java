@@ -10,34 +10,35 @@ import jakarta.validation.constraints.Pattern;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+
 //Creating Entity Class
 @Entity
 public class Insurance {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int policyId;
     private long policyNumber;
     @NotNull(message = "Policy Number is Mandatory")
-    @Pattern(regexp = "^[A-Za-z ]{3,}$",message = "Invalid PolicyHolderName")
+    @Pattern(regexp = "^[A-Za-z ]{3,}$", message = "Invalid PolicyHolderName")
     private String policyHolderName;
-    @Pattern(regexp = "^[A-Za-z ]{3,}$",message = "Invalid PolicyType")
+    @Pattern(regexp = "^[A-Za-z ]{3,}$", message = "Invalid PolicyType")
     private String policyType;
     @NotNull(message = "Premium Amount is Mandatory")
     @Min(value = 1, message = "Invalid Premium Amount")
     private double premiumAmount;
-    @Min(value = 1, message = "Invalid date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
-    @Min(value = 1, message = "Invalid date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
     @NotNull(message = "Invalid Status")
     private String status;
 
-    //Constructors
+    // Constructors
     public Insurance() {
     }
 
-    public Insurance(int policyId, long policyNumber, String policyHolderName, String policyType, double premiumAmount, LocalDate startDate, LocalDate endDate, String status) {
+    public Insurance(int policyId, long policyNumber, String policyHolderName, String policyType, double premiumAmount,
+            LocalDate startDate, LocalDate endDate, String status) {
         this.policyId = policyId;
         this.policyNumber = policyNumber;
         this.policyHolderName = policyHolderName;
@@ -48,7 +49,7 @@ public class Insurance {
         this.status = status;
     }
 
-    //Getters and Setters
+    // Getters and Setters
     public int getPolicyId() {
         return policyId;
     }

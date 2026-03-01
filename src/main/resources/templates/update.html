@@ -1,184 +1,239 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Update Policy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --bg-color: #0f172a;
+            --surface-color: rgba(30, 41, 59, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --input-bg: rgba(15, 23, 42, 0.6);
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5;
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-color);
+            background-image: radial-gradient(circle at top left, rgba(99, 102, 241, 0.1), transparent 40%),
+                radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.1), transparent 40%);
+            color: var(--text-primary);
+            margin: 0;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
+            padding: 40px 20px;
             box-sizing: border-box;
         }
 
-        /* Form Container */
         .form-container {
-            max-width: 500px;
             width: 100%;
-            padding: 30px;
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e0e0e0;
+            max-width: 550px;
+            background: var(--surface-color);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.6s ease-out;
         }
 
-        /* Form Layout */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            background: var(--primary-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
         form {
             display: flex;
             flex-direction: column;
-            gap: 18px; /* Increased gap for better spacing */
-            width: 100%;
+            gap: 20px;
         }
 
-        /* Header */
-        h2 {
-            color: #1a202c;
-            margin-top: 0;
-            margin-bottom: 25px;
-            font-size: 28px;
-            font-weight: 700;
-            text-align: center;
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        /* Labels */
         label {
             font-weight: 600;
-            color: #4a5568;
-            margin-bottom: -10px; /* Bring label closer to its input */
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.5px;
         }
 
-        /* Input Fields and Select */
         input[type=text],
         input[type=number],
         input[type=date],
         select {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ced4da;
-            border-radius: 8px;
+            padding: 14px 16px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1rem;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
             box-sizing: border-box;
-            background-color: #f8f9fa;
-            font-size: 16px;
-            color: #333;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            font-family: inherit;
         }
 
-        input[type=text]:focus,
-        input[type=number]:focus,
-        input[type=date]:focus,
+        input:focus,
         select:focus {
-            border-color: #007bff;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            background: rgba(15, 23, 42, 0.8);
         }
 
-        /* Button Group Container */
+        select option {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+        }
+
+        ::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            opacity: 0.6;
+            cursor: pointer;
+        }
+
         .button-group {
-            width: 100%;
             margin-top: 15px;
             display: flex;
-            flex-direction: column;
-            gap: 12px;
+            gap: 15px;
         }
 
-        /* Base Button Styles */
         .btn {
-            width: 100%;
+            flex: 1;
             padding: 14px;
             border: none;
-            outline: none;
-            font-size: 16px;
+            border-radius: 10px;
+            font-size: 1rem;
             font-weight: 600;
-            border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            text-decoration: none;
+            transition: all 0.3s ease;
             text-align: center;
-            display: inline-block;
-            box-sizing: border-box;
+            text-decoration: none;
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Primary Button (Submit) */
-        .btn.primary {
-            background-color: #007bff;
+        .btn-primary {
+            background: var(--primary-gradient);
             color: white;
-            border: 1px solid #007bff;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
         }
 
-        .btn.primary:hover {
-            background-color: #0056b3;
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
         }
 
-        /* Secondary Button (Link) */
-        .btn.secondary {
-            background-color: #ffffff;
-            color: #6c757d;
-            border: 1px solid #6c757d;
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
         }
 
-        .btn.secondary:hover {
-            background-color: #6c757d;
-            color: #ffffff;
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
+        .msg-alert {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
     </style>
-
 </head>
 
-<!--<div th:if="${msg}">-->
-<!--    <p th:text="${msg}"></p>-->
-<!--</div>-->
 <body>
-<div class="form-container">
-    <h2>Update Insurance Form</h2>
-    <form th:action="@{'/api/edit/' + ${OldValue.policyId}}"
-          th:method="post"
-          th:object="${OldValue}">
-
-        <label>Enter Policy Number</label>
-        <input type="number" th:field="*{policyNumber}" placeholder="Policy Number">
-
-        <label>Enter Policy Name</label>
-        <input type="text" th:field="*{policyHolderName}" placeholder="Policy Name">
-
-        <label>Select Your Insurance Policy</label>
-        <select th:field="*{policyType}">
-            <option value="Health Insurance">Health Insurance</option>
-            <option value="Life Insurance">Life Insurance</option>
-            <option value="Vehicle Insurance">Vehicle Insurance</option>
-            <option value="Property Insurance">Property Insurance</option>
-            <option value="Home Insurance">Home Insurance</option>
-            <option value="Mutual Funds">Mutual Funds</option>
-        </select>
-
-        <label>Enter Premium Amount</label>
-        <input type="number" th:field="*{premiumAmount}" placeholder="Premium Amount">
-
-        <label>Enter Start Date</label>
-        <input type="date" th:field="*{startDate}">
-
-        <label>Enter End Date</label>
-        <input type="date" th:field="*{endDate}">
-
-        <label>Current Status</label>
-        <input type="text" th:field="*{status}" placeholder="Status">
-
-        <div class="button-group">
-            <input type="submit" value="Update Policy" class="btn primary">
-            <a href="/api/view" class="btn secondary">Back to Policies</a>
+    <div class="form-container">
+        <div th:if="${msg}" class="msg-alert">
+            <span th:text="${msg}"></span>
         </div>
-    </form>
 
-</div>
+        <h2>Update Insurance Policy</h2>
+        <form th:action="@{'/api/edit/' + ${OldValue.policyId}}" th:method="post" th:object="${OldValue}">
+
+            <div class="input-group">
+                <label>Policy Number</label>
+                <input type="number" th:field="*{policyNumber}" placeholder="e.g. 10001">
+            </div>
+
+            <div class="input-group">
+                <label>Policy Holder Name</label>
+                <input type="text" th:field="*{policyHolderName}" placeholder="John Doe">
+            </div>
+
+            <div class="input-group">
+                <label>Insurance Type</label>
+                <select th:field="*{policyType}">
+                    <option value="Health Insurance">Health Insurance</option>
+                    <option value="Life Insurance">Life Insurance</option>
+                    <option value="Vehicle Insurance">Vehicle Insurance</option>
+                    <option value="Property Insurance">Property Insurance</option>
+                    <option value="Home Insurance">Home Insurance</option>
+                    <option value="Mutual Funds">Mutual Funds</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Premium Amount ($)</label>
+                <input type="number" th:field="*{premiumAmount}" placeholder="500">
+            </div>
+
+            <div style="display: flex; gap: 15px;">
+                <div class="input-group" style="flex: 1;">
+                    <label>Start Date</label>
+                    <input type="date" th:field="*{startDate}">
+                </div>
+
+                <div class="input-group" style="flex: 1;">
+                    <label>End Date</label>
+                    <input type="date" th:field="*{endDate}">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Status</label>
+                <input type="text" th:field="*{status}" placeholder="Active">
+            </div>
+
+            <div class="button-group">
+                <a href="/api/view" class="btn btn-secondary">Cancel</a>
+                <input type="submit" value="Update Policy" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
 </body>
+
 </html>

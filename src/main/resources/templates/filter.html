@@ -1,124 +1,212 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Filter Policies</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --secondary-gradient: linear-gradient(135deg, #3b82f6 0%, #2dd4bf 100%);
+            --bg-color: #0f172a;
+            --surface-color: rgba(30, 41, 59, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --input-bg: rgba(15, 23, 42, 0.6);
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5;
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-color);
+            background-image: radial-gradient(circle at center, rgba(99, 102, 241, 0.08), transparent 60%);
+            color: var(--text-primary);
             margin: 0;
-            padding: 20px;
+            padding: 40px 20px;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            box-sizing: border-box;
         }
 
         .filter-container {
             width: 100%;
-            max-width: 600px;
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-            border: 1px solid #e0e0e0;
+            max-width: 650px;
+            background: var(--surface-color);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: scaleIn 0.5s ease-out;
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 35px;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         h2 {
-            text-align: center;
             margin: 0;
-            color: #1a202c;
-            font-size: 28px;
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-align: center;
+            background: var(--primary-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before,
+        .section-title::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        .filter-section {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         form {
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: space-between;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .input-wrapper {
+            flex: 1;
         }
 
         input[type=text],
         input[type=number] {
-            flex: 1 1 48%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #ced4da;
-            background-color: #f8f9fa;
-            font-size: 16px;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1rem;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            font-family: inherit;
         }
 
-        input[type=text]:focus,
-        input[type=number]:focus {
-            border-color: #007bff;
+        input:focus {
             outline: none;
-            box-shadow: 0 0 0 3px rgba(0,123,255,0.15);
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            background: rgba(15, 23, 42, 0.8);
         }
 
         button {
-            flex: 1 1 100%;
-            padding: 12px;
+            padding: 14px 24px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            background-color: #007bff;
+            transition: all 0.3s ease;
+            background: var(--primary-gradient);
             color: white;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-alt {
+            background: var(--secondary-gradient);
+            box-shadow: 0 4px 15px rgba(45, 212, 191, 0.3);
         }
 
         button:hover {
-            background-color: #0056b3;
             transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-alt:hover {
+            box-shadow: 0 8px 25px rgba(45, 212, 191, 0.4);
         }
 
         .back-link {
             display: block;
             text-align: center;
-            margin-top: 10px;
             text-decoration: none;
-            color: #6c757d;
-            font-weight: bold;
-            border: 1px solid #6c757d;
-            padding: 10px 20px;
-            border-radius: 8px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
             transition: all 0.3s ease;
+            margin-top: 10px;
         }
 
         .back-link:hover {
-            background-color: #6c757d;
-            color: white;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border-color: rgba(255, 255, 255, 0.2);
         }
-
     </style>
 </head>
+
 <body>
 
-<div class="filter-container">
-    <h2>Filter Policies</h2>
-    <h2 style="text-align: center">Filter by Policy Type</h2>
-    <!-- Filter by Policy Type -->
-    <form th:action="@{/api/filter/types}" method="get">
+    <div class="filter-container">
+        <h2>Filter Policies</h2>
 
-        <input type="text" name="category" placeholder="Policy Type" required>
-        <button type="submit">Submit</button>
-    </form>
+        <div class="filter-section">
+            <div class="section-title">By Type</div>
+            <form th:action="@{/api/filter/types}" method="get">
+                <div class="input-wrapper">
+                    <input type="text" name="category" placeholder="E.g., Health Insurance" required>
+                </div>
+                <button type="submit">Search</button>
+            </form>
+        </div>
 
-    <h2 style="text-align: center">Filter by Premium Amount</h2>
-    <!-- Filter by Premium Amount -->
-    <form th:action="@{/api/filter/amount}" method="get">
-        <input type="number" name="start" placeholder="Start Amount" required>
-        <input type="number" name="end" placeholder="End Amount" required>
-        <button type="submit">Submit</button>
-    </form>
+        <div class="filter-section">
+            <div class="section-title">By Premium Range</div>
+            <form th:action="@{/api/filter/amount}" method="get">
+                <div class="input-wrapper">
+                    <input type="number" name="start" placeholder="Min $" required>
+                </div>
+                <div class="input-wrapper">
+                    <input type="number" name="end" placeholder="Max $" required>
+                </div>
+                <button type="submit" class="btn-alt">Search</button>
+            </form>
+        </div>
 
-    <a href="/api/view" class="back-link">⬅ Back to All Policies</a>
-</div>
+        <a href="/api/view" class="back-link">← Back to All Policies</a>
+    </div>
 
 </body>
+
 </html>

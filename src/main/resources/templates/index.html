@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Policy Tracker Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --secondary-gradient: linear-gradient(135deg, #3b82f6 0%, #2dd4bf 100%);
+            --accent-gradient: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            --bg-color: #0f172a;
+            --surface-color: rgba(30, 41, 59, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-color);
+            background-image:
+                radial-gradient(circle at top left, rgba(99, 102, 241, 0.15), transparent 40%),
+                radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.15), transparent 40%);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 30px;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: #a855f7;
+        }
+
+        /* Dashboard Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            flex: 1;
+            width: 100%;
+            box-sizing: border-box;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dashboard-header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .dashboard-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 0 0 10px 0;
+            letter-spacing: -1px;
+        }
+
+        .dashboard-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .stat-card {
+            background: var(--surface-color);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+        }
+
+        .stat-card.primary::before {
+            background: var(--primary-gradient);
+        }
+
+        .stat-card.secondary::before {
+            background: var(--secondary-gradient);
+        }
+
+        .stat-card.accent::before {
+            background: var(--accent-gradient);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-value {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 10px 0;
+            line-height: 1;
+        }
+
+        .stat-title {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Action Grid */
+        .action-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .action-card {
+            flex: 1;
+            min-width: 250px;
+            max-width: 350px;
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
+            text-decoration: none;
+            color: var(--text-primary);
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .action-card:hover {
+            background: var(--surface-color);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .action-icon {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+        }
+
+        .action-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .action-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="brand">
+            🛡️ PolicyTracker
+        </div>
+        <div class="nav-links">
+            <a href="/">Dashboard</a>
+            <a href="/api/view">All Policies</a>
+            <a href="/api/new">New Policy</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Welcome Back!</h1>
+            <p>Your comprehensive overview of all insurance policies, premiums, and active subscriptions in one seamless
+                dashboard.</p>
+        </div>
+
+        <!-- System Stats -->
+        <div class="stats-grid">
+            <div class="stat-card primary">
+                <div class="stat-title">Total Policies</div>
+                <div class="stat-value" th:text="${totalPolicies}">0</div>
+            </div>
+
+            <div class="stat-card secondary">
+                <div class="stat-title">Total Premium Value</div>
+                <div class="stat-value" th:text=" '$' + ${totalPremium}">$0</div>
+            </div>
+
+            <div class="stat-card accent">
+                <div class="stat-title">Active Policies</div>
+                <div class="stat-value" th:text="${activePolicies}">0</div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="action-container">
+            <a href="/api/view" class="action-card">
+                <div class="action-icon">📋</div>
+                <div class="action-title">View Portfolio</div>
+                <div class="action-desc">Manage, edit, or delete existing insurance entries.</div>
+            </a>
+
+            <a href="/api/new" class="action-card">
+                <div class="action-icon">✨</div>
+                <div class="action-title">Create Policy</div>
+                <div class="action-desc">Add a new insurance record to your tracking system.</div>
+            </a>
+
+            <a href="/api/filter-page" class="action-card">
+                <div class="action-icon">🔍</div>
+                <div class="action-title">Search & Filter</div>
+                <div class="action-desc">Find specific policies by type or premium amount.</div>
+            </a>
+        </div>
+    </div>
+
+</body>
+
+</html>
